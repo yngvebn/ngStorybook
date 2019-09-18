@@ -10,21 +10,20 @@ call npm run build-storybook
 cd .\.coverage
 
 REM Reset previous instrumentation
-xcopy ..\storybook-static ..\coverage-output\storybook-static\ /s /y
+REM xcopy ..\storybook-static ..\coverage-output\storybook-static\ /s /y
 REM xcopy ..\angularapp\src ..\coverage-output\src\ /s /y
 
 REM Instrument and serve the app
-cd ..\coverage-output
-xcopy .\storybook-static\*.html .
-xcopy .\storybook-static\*.ico .
-xcopy .\storybook-static\*.map .
-call nyc instrument ./storybook-static . --exclude-after-remap=false
+cd ..\
+REM xcopy .\storybook-static\*.html .
+REM xcopy .\storybook-static\*.ico .
+REM xcopy .\storybook-static\*.map .
+call nyc instrument ./storybook-static ./coverage-output --source-map=false --complete-copy
 start docker run -it --rm -p 6006:8080 -v C:\github\ngStorybook\coverage-output:/public --name storybook danjellz/http-server
 
 REM Run the ART and stop the server
 REM cd ..\angularapp\e2e
-md ..\.nyc_output
-cd ..\
+md .\.nyc_output
 call npm run cypress
 docker stop storybook
 

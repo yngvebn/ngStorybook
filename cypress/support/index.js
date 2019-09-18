@@ -14,16 +14,18 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands';
+import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-
 
 afterEach(() => {
   cy.window().then(win => {
     const v = JSON.stringify(win.__coverage__);
     const currentTest = Cypress.mocha.getRunner().suite.ctx.currentTest;
-    cy.writeFile(`./coverage-output/.nyc_output/${Cypress.spec.name} - ${currentTest.parent.title} - ${currentTest.title}.json`, v);
-  })
-})
+    cy.writeFile(
+      `./coverage-output/.nyc_output/${Cypress.spec.name} - ${currentTest.parent.title} - ${currentTest.title}.json`,
+      v
+    );
+  });
+});
