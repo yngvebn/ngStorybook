@@ -1,0 +1,43 @@
+import { Story, Meta, ArgsTable, Source, Title, Description, LinkTo } from '@storybook/addon-docs';
+
+<Meta
+    title="Welcome/Tips and Tricks"
+    parameters={{
+        viewMode: 'docs',
+        previewTabs: {
+            canvas: { hidden: true }
+        },
+        chromatic: { disableSnapshot: true }
+    }}
+/>
+
+### Adding design from Figma
+
+Your stories can contain links to components in Figma by simply adding the URL to a particular node to your story>
+
+```ts
+export default {
+    component: MyComponent,
+    title: 'Atoms/Component',
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'direct-url-to-node-in-figma'
+        }
+    }
+};
+```
+
+Simply go to figma and select the node you want to attach, and copy the URL from the browser.
+
+### Exposing Storybook through firewall
+
+In order to access your local Storybook on other devices on your network, you have to expose it through your local firewall. If you are on Windows, you can do so by opening a Powershell terminal with administrator privilieges, and executing the following command
+
+`New-NetFirewallRule -DisplayName 'Storybook' -Profile 'Any' -Direction Inbound -Action Allow -Protocol TCP -LocalPort 6000-6010`
+
+This will create a new firewall rule that allows incoming connections on all ports from 6000 through 6010, on any profile.
+
+Next you'll need your local IP address. Execute `Get-NetIPAddress -AddressFamily IPv4` from the same Powershell terminal, and look for your Wi-Fi ip-address (if you're on cabled network, look for the Ethernet address.)
+
+_Hint - it's not 127.0.0.1_
